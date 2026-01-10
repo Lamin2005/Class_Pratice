@@ -15,11 +15,12 @@ const uploadResult = async (imagePath) => {
     const response = await cloudinary.uploader.upload(imagePath, {
       resource_type: "auto",
     });
-    console.log(response);
+    console.log(response.url);
+    return response;
   } catch (error) {
     console.log(error);
     return null;
   }
 };
 
-export { cloudinary, uploadResult };
+export { uploadResult };

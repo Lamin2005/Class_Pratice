@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
-import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
+//import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -23,6 +23,12 @@ const userSchema = new Schema(
     },
     password: { type: String, required: true, trim: true },
     profile_photo: { type: String },
+    cover_photo: {
+      type: String,
+    },
+    refresh_token: {
+      type: String,
+    },
     posts: [
       {
         type: Schema.Types.ObjectId,
@@ -72,6 +78,6 @@ userSchema.methods.refreshToken = async function () {
   );
 };
 
-userSchema.plugin(mongooseAggregatePaginate);
+//userSchema.plugin(mongooseAggregatePaginate);
 const User = mongoose.model("User", userSchema);
 export default User;
