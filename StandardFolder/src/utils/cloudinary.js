@@ -1,4 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
+import "dotenv/config";
+import fs from "fs";
 
 // Configuration
 cloudinary.config({
@@ -15,10 +17,14 @@ const uploadResult = async (imagePath) => {
     const response = await cloudinary.uploader.upload(imagePath, {
       resource_type: "auto",
     });
-    console.log(response.url);
-    return response;
+
+    fs.unlinkSync(imagePath);
+    console.log("Cloudinary Response Url:", response.url);
+
+    return response.url;
   } catch (error) {
     console.log(error);
+    fs.unlinkSync(imagePath);
     return null;
   }
 };
