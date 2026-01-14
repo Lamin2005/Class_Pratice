@@ -39,13 +39,16 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-userSchema.pre("save", async function (password) {
+userSchema.pre("save", async function (next) {
+
+  // 👉 password မပြောင်းထားရင် hashing မလုပ်ဘူး
   if (!this.isModified("password")) {
-    return next();
+    return ;
   }
 
-  this.password = bcrypt.hash(this.password, 10);
-  next();
+  // 👉 password ပြောင်းထားမှ hash လုပ်မယ်
+  this.password = await bcrypt.hash(this.password, 10);
+ 
 });
 
 userSchema.methods.isMatched = async function (password) {

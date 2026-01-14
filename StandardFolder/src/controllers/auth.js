@@ -3,10 +3,10 @@ import { uploadResult } from "../utils/cloudinary.js";
 import fs from "fs";
 import User from "../schemas/user.js";
 
-export const register = async (req, res, next) => {
+export const register = async (req, res) => {
   const { username, email, password } = req.body;
-  let profile_photo;
-  let cover_photo;
+  const profile_photo = req.files.profile_photo[0].path;
+  const cover_photo = req.files.cover_photo[0].path;
 
   if ([username, email, password].some((field) => field.trim() === "")) {
     return res.status(400).json({ message: "All fields are required" });
@@ -16,16 +16,15 @@ export const register = async (req, res, next) => {
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
 
     if (existingUser) {
-      return res.status(409).json({ message: "Email already in use" });
+      fs.unlinkSync(profile_photo);
+      fs.unlinkSync(cover_photo);
+      return res
+        .status(409)
+        .json({ message: "User with given email or username already exists" });
     }
-
-    console.log(username, email, password);
 
     let profile_url = "";
     let cover_url = "";
-
-    profile_photo = req.files.profile_photo[0].path;
-    cover_photo = req.files.cover_photo[0].path;
 
     if (profile_photo && cover_photo) {
       profile_url = await uploadResult(profile_photo);
@@ -55,7 +54,6 @@ export const register = async (req, res, next) => {
       .status(201)
       .json({ message: "User registered successfully", user: userdata });
   } catch (error) {
-    console.log("Error during registration:", error);
     if (profile_photo && fs.existsSync(profile_photo)) {
       fs.unlinkSync(profile_photo);
     }
@@ -63,6 +61,7 @@ export const register = async (req, res, next) => {
     if (cover_photo && fs.existsSync(cover_photo)) {
       fs.unlinkSync(cover_photo);
     }
+    console.log("Error during registration:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
