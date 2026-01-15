@@ -1,4 +1,4 @@
-import { register } from "../controllers/auth.js";
+import { login, register } from "../controllers/auth.js";
 import express from "express";
 import { upload } from "../middlewares/multer-storage.js";
 
@@ -12,5 +12,7 @@ router.post(
   ]),
   register
 );
+
+router.post("/login", login);
 
 export default router;

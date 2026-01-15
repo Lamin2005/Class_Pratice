@@ -1,7 +1,7 @@
-import { log } from "console";
 import { uploadResult } from "../utils/cloudinary.js";
 import fs from "fs";
 import User from "../schemas/user.js";
+import { exit } from "process";
 
 export const register = async (req, res) => {
   const { username, email, password } = req.body;
@@ -16,11 +16,10 @@ export const register = async (req, res) => {
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
 
     if (existingUser) {
-      fs.unlinkSync(profile_photo);
-      fs.unlinkSync(cover_photo);
-      return res
+      res
         .status(409)
         .json({ message: "User with given email or username already exists" });
+      throw new Error("User with given email or username already exists");
     }
 
     let profile_url = "";
@@ -62,6 +61,63 @@ export const register = async (req, res) => {
       fs.unlinkSync(cover_photo);
     }
     console.log("Error during registration:", error);
-    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+const generateTokens = async (userid) => {
+  const existingUser = await User.findById(userid);
+
+  if (!existingUser) return res.status(404).json({ message: "User not Found" });
+
+  const accessToken = existingUser.generateToken();
+  const refreshToken = existingUser.refreshToken();
+
+  existingUser.refresh_token = refreshToken;
+  await existingUser.save({ validateBeforSave: false });
+
+  return { accessToken, refreshToken };
+};
+
+export const login = async (req, res) => {
+  const { username, email, password } = req.body;
+
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const existingUser = await User.findOne({
+      $and: [{ username }, { email }],
+    });
+
+    if (!existingUser)
+      return res.status(404).json({ message: "User not Found" });
+
+    const checkPassword = await existingUser.isMatched(password);
+
+    if (!checkPassword)
+      return res.status(401).json({ message: "Password not correct!" });
+
+    const { accessToken, refreshToken } = await generateTokens(
+      existingUser._id
+    );
+
+    const CookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    };
+
+    const userdata = await User.findById(existingUser._id).select(
+      "-password -refresh_token"
+    );
+
+    return res
+      .status(200)
+      .cookie("accesstoken", accessToken, CookieOptions)
+      .cookie("refreshtoken", refreshToken, CookieOptions)
+      .json({ message: "User login successfully...", result: userdata });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };

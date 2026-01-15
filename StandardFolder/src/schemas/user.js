@@ -40,23 +40,21 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
-
   // 👉 password မပြောင်းထားရင် hashing မလုပ်ဘူး
   if (!this.isModified("password")) {
-    return ;
+    return;
   }
 
   // 👉 password ပြောင်းထားမှ hash လုပ်မယ်
   this.password = await bcrypt.hash(this.password, 10);
- 
 });
 
 userSchema.methods.isMatched = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateToken = async function () {
-  jwt.sign(
+userSchema.methods.generateToken = function () {
+  return jwt.sign(
     {
       _id: this._id,
       name: this.name,
@@ -69,8 +67,8 @@ userSchema.methods.generateToken = async function () {
   );
 };
 
-userSchema.methods.refreshToken = async function () {
-  jwt.sign(
+userSchema.methods.refreshToken = function () {
+  return jwt.sign(
     {
       _id: this._id,
     },
