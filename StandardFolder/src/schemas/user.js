@@ -60,7 +60,7 @@ userSchema.methods.generateToken = function () {
       name: this.name,
       email: this.email,
     },
-    process.env.SECRET_KEY,
+    process.env.JWT_SECRET_KEY,
     {
       expiresIn: process.env.EXPIRE_TIME,
     }
@@ -72,7 +72,7 @@ userSchema.methods.refreshToken = function () {
     {
       _id: this._id,
     },
-    process.env.SECRET_KEY,
+    process.env.JWT_SECRET_KEY,
     {
       expiresIn: process.env.EXPIRE_TIME,
     }
