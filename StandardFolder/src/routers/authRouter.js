@@ -1,6 +1,12 @@
-import { login, register, generateRefreshTokens } from "../controllers/auth.js";
+import {
+  login,
+  register,
+  generateRefreshTokens,
+  logout,
+} from "../controllers/auth.js";
 import express from "express";
 import { upload } from "../middlewares/multer-storage.js";
+import { verifyuserdata } from "../middlewares/verifyJWT.js";
 
 const router = express.Router();
 
@@ -15,5 +21,6 @@ router.post(
 
 router.post("/login", login);
 router.post("/refresh-token", generateRefreshTokens);
+router.post("/logout", verifyuserdata, logout);
 
 export default router;

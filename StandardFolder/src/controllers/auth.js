@@ -102,6 +102,8 @@ export const login = async (req, res) => {
       existingUser._id
     );
 
+    console.log(accessToken);
+
     const CookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -157,4 +159,38 @@ export const generateRefreshTokens = async (req, res) => {
     console.log(error.message);
     return res.status(500).json({ message: "Internal Server Error" });
   }
+};
+
+export const logout = async (req, res) => {
+  try {
+    if (!req.user || !req.user._id)
+      return res
+        .status(401)
+        .json({ message: "Logout Unauthorizate access..." });
+
+    const update = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $unset: {
+          refresh_token: 1,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+
+    console.log(update);
+
+    const CookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    };
+
+    return res
+      .status(200)
+      .clearCookie("accesstoken", CookieOptions)
+      .clearCookie("refreshtoken", CookieOptions)
+      .json({ message: `${update.username} Logout successfully...` });
+  } catch (error) {}
 };
