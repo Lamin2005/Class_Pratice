@@ -61,6 +61,7 @@ export const register = async (req, res) => {
       fs.unlinkSync(cover_photo);
     }
     console.log("Error during registration:", error);
+    return res.status(500).json({ message: "Internal Server Error..." });
   }
 };
 
@@ -119,7 +120,7 @@ export const login = async (req, res) => {
       .cookie("refreshtoken", refreshToken, CookieOptions)
       .json({ message: "User login successfully...", result: userdata });
   } catch (error) {
-    console.log(error);
+    console.log("Login Error : ", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -156,7 +157,7 @@ export const generateRefreshTokens = async (req, res) => {
       .cookie("refreshtoken", refreshToken, CookieOptions)
       .json({ message: "Refresh Token Updating successfully..." });
   } catch (error) {
-    console.log(error.message);
+    console.log("Error Regenerate Tokens : ",error.message);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -192,5 +193,8 @@ export const logout = async (req, res) => {
       .clearCookie("accesstoken", CookieOptions)
       .clearCookie("refreshtoken", CookieOptions)
       .json({ message: `${update.username} Logout successfully...` });
-  } catch (error) {}
+  } catch (error) {
+    console.log("Logout Error : ", error.message);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
 };
