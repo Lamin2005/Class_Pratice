@@ -1,5 +1,3 @@
-import React from "react";
-
 function CurrencySelectbox({ label, currencies, selectedCurrency, setCurrency }) {
   return (
     <div className="w-full flex justify-center flex-col">
