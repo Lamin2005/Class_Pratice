@@ -1,34 +1,93 @@
-let num : number = 10;
+let num: number = 10;
 
 num = 20;
 
-let name : string = "Mya Mya";
+let name: string = "Mya Mya";
 
 name = "Mg Mg";
 
-console.log(name);
+//console.log(name);
 
-let array = ["lamin","mgmg","mama"];
+let array = ["lamin", "mgmg", "mama"];
 
 array.push("aungaung");
 
-console.log(array);
+//console.log(array);
 
-let mixed = ['aungaung','mgmg',10,20];
+//let mixed = ['aungaung','mgmg',10,20];
 
-mixed.push('laminhein');
-mixed.push(30);
+//mixed.push('laminhein');
+//mixed.push(30);
 
-console.log(mixed);
-
+//console.log(mixed);
 
 let obj = {
-    name : "laminhein",
-    age : 20,
-    adult : true
-}
+  name: "laminhein",
+  age: 20,
+  adult: true,
+};
 
 obj.name = "aungaung";
 
-console.log(obj);
+//console.log(obj);
+
+//Explicit Types
+
+let people: string;
+
+people = "mgmg";
+console.log(people);
+
+let test: number;
+
+test = 10;
+console.log(test);
+
+let workers: string[];
+
+workers = ["laminhein"];
+
+let bools: boolean[];
+
+bools = [true, false];
+
+console.log(bools);
+
+console.log(workers);
+
+let testobj: {
+  name: string;
+  age: number;
+  adult: boolean;
+};
+
+testobj = {
+  name: "mgmg",
+  age: 10,
+  adult: true,
+};
+
+console.log(testobj);
+
+let mixed: (string | boolean)[];
+
+mixed = ["aungaung", true];
+
+console.log(mixed);
+
+//function
+
+let add = (a: number, b: number , c?: number) => {
+  console.log(a + b);
+  console.log(c);
+  
+};
+
+let minus = (a: number, b: number) => {
+  return a - b;
+};
+
+add(1,2);
+
+console.log(minus(10,2));
 
