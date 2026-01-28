@@ -77,17 +77,49 @@ console.log(mixed);
 
 //function
 
-let add = (a: number, b: number , c?: number) => {
+let add = (a: number, b: number, c?: number) => {
   console.log(a + b);
   console.log(c);
-  
 };
 
 let minus = (a: number, b: number) => {
   return a - b;
 };
 
-add(1,2);
+add(1, 2);
 
-console.log(minus(10,2));
+console.log(minus(10, 2));
 
+//Tuple
+
+let myTuple: [number, string, boolean, number, string];
+
+myTuple = [1, "laminhein", true, 21, "Pathein"];
+
+console.log(myTuple);
+
+//Interface
+
+interface User {
+  name: string;
+  age: number;
+  address: string;
+  adult?: boolean;
+  isLogin(state?: boolean): boolean;
+}
+
+let user: User = {
+  name: "La Min Hein",
+  age: 21,
+  address: "Pathein",
+  isLogin: () => {
+    return true;
+  },
+  city: "Kyonmange",
+};
+
+interface User {
+  city: string;
+}
+
+console.log(user);

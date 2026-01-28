@@ -52,4 +52,18 @@ let minus = (a, b) => {
 };
 add(1, 2);
 console.log(minus(10, 2));
+//Tuple
+let myTuple;
+myTuple = [1, "laminhein", true, 21, "Pathein"];
+console.log(myTuple);
+let user = {
+    name: "La Min Hein",
+    age: 21,
+    address: "Pathein",
+    isLogin: () => {
+        return true;
+    },
+    city: "Kyonmange",
+};
+console.log(user);
 //# sourceMappingURL=index.js.map
