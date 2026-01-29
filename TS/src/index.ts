@@ -1,3 +1,8 @@
+import { User } from "./interfaces/User";
+import { Admin } from "./interfaces/Admin";
+import { Editor } from "./interfaces/Editor";
+
+
 let num: number = 10;
 
 num = 20;
@@ -100,13 +105,8 @@ console.log(myTuple);
 
 //Interface
 
-interface User {
-  name: string;
-  age: number;
-  address: string;
-  adult?: boolean;
-  isLogin(state?: boolean): boolean;
-}
+
+//reopening type
 
 let user: User = {
   name: "La Min Hein",
@@ -118,8 +118,25 @@ let user: User = {
   city: "Kyonmange",
 };
 
-interface User {
-  city: string;
-}
+
+
+let user2: User = {
+  name: "Mg Mg",
+  age: 20,
+  address: "Yangon",
+  isLogin: () => {
+    return false;
+  },
+  city: "SaungChang",
+};
+
+//extends interface
 
 console.log(user);
+console.log(user2);
+
+
+
+
+
+

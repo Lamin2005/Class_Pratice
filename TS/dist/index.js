@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 let num = 10;
 num = 20;
 let name = "Mya Mya";
@@ -56,6 +54,8 @@ console.log(minus(10, 2));
 let myTuple;
 myTuple = [1, "laminhein", true, 21, "Pathein"];
 console.log(myTuple);
+//Interface
+//reopening type
 let user = {
     name: "La Min Hein",
     age: 21,
@@ -65,5 +65,17 @@ let user = {
     },
     city: "Kyonmange",
 };
+let user2 = {
+    name: "Mg Mg",
+    age: 20,
+    address: "Yangon",
+    isLogin: () => {
+        return false;
+    },
+    city: "SaungChang",
+};
+//extends interface
 console.log(user);
+console.log(user2);
+export {};
 //# sourceMappingURL=index.js.map
