@@ -2,7 +2,6 @@ import { User } from "./interfaces/User";
 import { Admin } from "./interfaces/Admin";
 import { Editor } from "./interfaces/Editor";
 
-
 let num: number = 10;
 
 num = 20;
@@ -103,9 +102,6 @@ myTuple = [1, "laminhein", true, 21, "Pathein"];
 
 console.log(myTuple);
 
-//Interface
-
-
 //reopening type
 
 let user: User = {
@@ -117,8 +113,6 @@ let user: User = {
   },
   city: "Kyonmange",
 };
-
-
 
 let user2: User = {
   name: "Mg Mg",
@@ -135,8 +129,106 @@ let user2: User = {
 console.log(user);
 console.log(user2);
 
+//Enum
+
+enum Direction {
+  Up,
+  Down,
+  Left,
+  Right,
+}
+
+let Drive = (dir: 0 | 1 | 2 | 3): void => {
+  if (dir === Direction.Up) {
+    console.log("Car is Dirving Up...");
+  } else if (dir === Direction.Down) {
+    console.log("Car is Dirving Down...");
+  } else if (dir === Direction.Left) {
+    console.log("Car is Dirving Left...");
+  } else if (dir === Direction.Right) {
+    console.log("Car is Dirving Right...");
+  }
+};
+
+Drive(Direction.Down);
+
+console.log(Direction.Down);
+
+//Type Aliases
+
+type name = string;
+type age = number;
+type obj = {
+  name: name;
+  age: age;
+  job: string;
+  adult?: string | boolean;
+};
+
+let info = (name: name, age: age): void => {
+  console.log(`My name is ${name} and i am ${age} year old.`);
+};
+
+let maininfo = (obj: obj): void => {
+  console.log(
+    `My name is ${obj.name} and i am ${obj.age} year old and my job is ${obj.job}.`,
+  );
+
+  console.log(obj.adult);
+};
+
+info("laminhein", 21);
+maininfo({
+  name: "laminhein",
+  age: 20,
+  job: "FullStack-Developer",
+  adult: true,
+});
+
+let newObj: {
+  name: string;
+  readonly age: number;
+  role: string;
+} = {
+  name: "Aung Aung",
+  age: 25,
+  role: "Admin",
+};
+
+//Classes Pratice
+
+class InfoDetails {
+  private name: string;
+  readonly age: number;
+  job: string;
+
+  constructor(x: string, y: number, z: string) {
+    this.name = x;
+    this.age = y;
+    this.job = z;
+  }
+
+  getDetails() {
+    console.log(
+      `My name is ${this.name} and i am ${this.age} old and my job is ${this.job}.`,
+    );
+  }
+}
+
+let laminhein = new InfoDetails("laminhein", 20, "Developer");
+console.log(laminhein.getDetails());
+let kyawkyaw = new InfoDetails("kyawkyaw", 18, "Student");
+console.log(kyawkyaw.getDetails());
+
+let arr : InfoDetails[]  = [];
+
+console.log(laminhein.age);
 
 
+arr.push(laminhein);
+arr.push(kyawkyaw);
+
+console.log(arr);
 
 
 
